@@ -28,13 +28,6 @@ install ansible galaxy docker role
 ```
 3. Add your SSH public key to folder vagrant-setup and name it id_rsa.pub 
 4. Customize your Vagrantfile with name, box, playbook etc
-```
-- name: prepare your env
-  hosts: docker
-  vars:
-    - username: ''
-    - password: ''
-```
 example:
 
 ```
