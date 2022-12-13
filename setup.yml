@@ -25,14 +25,6 @@
         shell: /bin/bash
       notify: restart_sshd
 
-    - name: Edit SSHD Config
-      ansible.builtin.lineinfile:
-        path: /etc/ssh/sshd_config
-        regexp: '^PasswordAuthentication '
-        insertafter: '#PasswordAuthentication'
-        line: 'PasswordAuthentication yes'
-      notify: restart_sshd
-
     - name: Add sudo rights for user
       ansible.builtin.copy:
         dest: /etc/sudoers.d/"{{ username }}"
@@ -53,6 +45,7 @@
         key: "{{ lookup('file', 'id_rsa.pub') }}"
         path: /home/"{{ username }}"/.ssh/authorized_keys
         manage_dir: False
+      notify: restart_sshd
 
     - name: Print out your new IP for your vagrant VM 
       debug: var=ansible_all_ipv4_addresses
