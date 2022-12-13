@@ -18,7 +18,7 @@ install ansible galaxy docker role
 ## simples
 
 1. Clone Repository
-2. Add your user to setup.yml and docker.yml vars
+2. Add your user to setup.yml and basic.yml vars
 ```yaml
 - name: prepare your env
   hosts: docker
