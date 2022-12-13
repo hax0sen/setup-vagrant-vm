@@ -43,15 +43,15 @@ Vagrant.configure(2) do |config|
     }
  ]
 ```
-5. cd to vagrant-setup folder and run vagrant up
+5. cd to setup-vagrant-vm folder and run vagrant up
 
 DONE! you should now have a prepared VM you can access via ssh with your user
 
 ## advanced 
 
-1. clone this Repository
-2. add your own playbooks
-4. customize your Vagrantfile with name, box, playbook etc
+1. Clone Repository
+2. Add your own playbooks
+4. Customize your Vagrantfile with name, box, playbook etc
 example:
 ```
 Vagrant.configure(2) do |config|
@@ -76,4 +76,4 @@ Vagrant.configure(2) do |config|
     },
  ]
 ```
- 5. cd to vagrant-setup folder and run vagrant up
+ 5. cd to setup-vagrant-vm folder and run vagrant up
