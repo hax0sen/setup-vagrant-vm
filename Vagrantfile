@@ -5,7 +5,7 @@ Vagrant.configure(2) do |config|
       :box => "almalinux/8",
       :ram => 1024,
       :vcpu => 1,
-      :pre-playbook => "setup.yml",
+      :preplaybook => "setup.yml",
       :playbook => "basic.yml",
       :bridge_network => "en1: Ethernet"
     }
@@ -22,7 +22,7 @@ Vagrant.configure(2) do |config|
         vb.cpus = opts[:vcpu]
       end
       config.vm.provision :ansible_local do |ansible|
-        ansible.playbook           = opts[:pre-playbook]
+        ansible.playbook           = opts[:preplaybook]
         ansible.config_file        = "ansible.cfg"
         config.ssh.insert_key      = false
         ansible.verbose            = true
