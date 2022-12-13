@@ -1,0 +1,21 @@
+---
+- hosts: docker
+  gather_facts: true 
+  vars:
+    docker_compose: true
+    docker_compose_no_pip: true
+    docker_compose_no_pip_detect_version: false
+    docker_daemon_config:
+      log-driver: json-file
+      log-opts:
+        max-size: 10m
+        max-file: "3"
+    docker_users:
+      - < add your user >
+  pre_tasks:
+    - name: add python to patch #needed for almalinux
+      shell: ln -s /usr/bin/python3 /usr/bin/python
+      when: 
+  roles:
+    - ansible-hardening
+    - haxorof.docker_ce

@@ -1,0 +1,58 @@
+---
+- name: prepare your env
+  hosts: docker
+  vars:
+    - username: ''
+    - password: ''
+  become: true
+  gather_facts: yes
+  handlers:
+  - name: restart_sshd
+    service:
+      name: sshd
+      state: restarted
+  tasks:
+    - name: Fail if user is missing
+      ansible.builtin.fail:
+        msg: "You need to set username in vars '{{ username }}' is not defined"
+      when: username | length == 0
+      
+    - name: Create your user "{{ username }}"
+      ansible.builtin.user:
+        name: "{{ username }}"
+        state: present
+        password: "{{ password }}"
+        shell: /bin/bash
+      notify: restart_sshd
+
+    - name: Edit SSHD Config
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PasswordAuthentication '
+        insertafter: '#PasswordAuthentication'
+        line: 'PasswordAuthentication yes'
+      notify: restart_sshd
+
+    - name: Add sudo rights for user
+      ansible.builtin.copy:
+        dest: /etc/sudoers.d/"{{ username }}"
+        content: '"{{ username }}" ALL=(root) NOPASSWD: ALL'
+
+    - name: Ensure ssh file are in place
+      ansible.builtin.file:
+        path: /home/"{{ username }}"/.ssh
+        state: directory
+        owner: "{{ username }}"
+        group: "{{ username }}"
+        mode: '0700'
+
+    - name: Set authorized key in alternate location
+      ansible.posix.authorized_key:
+        user: "{{ username }}"
+        state: present
+        key: "{{ lookup('file', 'id_rsa.pub') }}"
+        path: /home/"{{ username }}"/.ssh/authorized_keys
+        manage_dir: False
+
+    - name: Print out your new IP for your vagrant VM 
+      debug: var=ansible_all_ipv4_addresses

@@ -1,0 +1,5 @@
+---
+roles:
+  - src: haxorof.docker_ce
+  - src: https://github.com/openstack/ansible-hardening
+    version: stable/xena
