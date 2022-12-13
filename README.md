@@ -1,11 +1,12 @@
 # Setup your vagrant env
 
-This repository will guide you how to setup vagrant VM with some customize options, like add your own playbooks or galaxy playbooks.
+This repository will guide you how to setup vagrant VM with some customize options, for example add your own playbooks or galaxy playbooks.
 
 defaults will setup:
-your own user with pub key
-install docker from galaxy role
-run ansible hardening role
+setup almalinux VM
+with your own user + pub key
+prepare env with ansible hardening role
+install ansible galaxy docker role
 
 # Prerequisites
 
