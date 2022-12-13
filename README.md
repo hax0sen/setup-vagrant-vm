@@ -28,8 +28,16 @@ install ansible galaxy docker role
 ```
 3. Add your SSH public key to folder vagrant-setup and name it id_rsa.pub 
 4. Customize your Vagrantfile with name, box, playbook etc
-
+```
+- name: prepare your env
+  hosts: docker
+  vars:
+    - username: ''
+    - password: ''
+```
 example:
+
+```
 Vagrant.configure(2) do |config|
   boxes = [
     {
@@ -41,6 +49,7 @@ Vagrant.configure(2) do |config|
       :bridge_network => "en1: Ethernet"
     }
  ]
+```
 5. cd to vagrant-setup folder and run vagrant up
 
 DONE! you should now have a prepared VM you can access via ssh with your user
@@ -51,6 +60,7 @@ DONE! you should now have a prepared VM you can access via ssh with your user
 2. add your own playbooks
 4. customize your Vagrantfile with name, box, playbook etc
 example:
+```
 Vagrant.configure(2) do |config|
   boxes = [
     {
@@ -72,4 +82,5 @@ Vagrant.configure(2) do |config|
       :bridge_network => "en1: Ethernet"
     },
  ]
+```
  5. cd to vagrant-setup folder and run vagrant up
