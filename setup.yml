@@ -2,8 +2,8 @@
 - name: prepare your env
   hosts: docker
   vars:
-    - username: ''
-    - password: ''
+    - _username: <user>
+    - _password: <password>
   become: true
   gather_facts: yes
   handlers:
@@ -14,36 +14,36 @@
   tasks:
     - name: Fail if user is missing
       ansible.builtin.fail:
-        msg: "You need to set username in vars '{{ username }}' is not defined"
-      when: username | length == 0
+        msg: "You need to set username in vars ''{{ _username }}'' is not defined"
+      when: _username | length == 0
       
-    - name: Create your user "{{ username }}"
+    - name: Create your user "'{{ _username }}'"
       ansible.builtin.user:
-        name: "{{ username }}"
+        name: '{{ _username }}'
         state: present
-        password: "{{ password }}"
+        password: '{{ _password }}'
         shell: /bin/bash
       notify: restart_sshd
 
     - name: Add sudo rights for user
       ansible.builtin.copy:
-        dest: /etc/sudoers.d/"{{ username }}"
-        content: '"{{ username }}" ALL=(root) NOPASSWD: ALL'
+        dest: /etc/sudoers.d/{{ _username }}
+        content: "{{ _username }} ALL=(root) NOPASSWD: ALL"
 
     - name: Ensure ssh file are in place
       ansible.builtin.file:
-        path: /home/"{{ username }}"/.ssh
+        path: /home/{{ _username }}/.ssh
         state: directory
-        owner: "{{ username }}"
-        group: "{{ username }}"
-        mode: '0700'
+        owner: '{{ _username }}'
+        group: '{{ _username }}'
+        mode: 0700
 
     - name: Set authorized key in alternate location
       ansible.posix.authorized_key:
-        user: "{{ username }}"
+        user: '{{ _username }}'
         state: present
         key: "{{ lookup('file', 'id_rsa.pub') }}"
-        path: /home/"{{ username }}"/.ssh/authorized_keys
+        path: /home/{{ _username }}/.ssh/authorized_keys
         manage_dir: False
       notify: restart_sshd
 

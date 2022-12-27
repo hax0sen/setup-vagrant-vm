@@ -1,5 +1,6 @@
 ---
 - hosts: docker
+  become: true
   gather_facts: true 
   vars:
     docker_compose: true
@@ -11,7 +12,7 @@
         max-size: 10m
         max-file: "3"
     docker_users:
-      - < add your user >
+      - <user>
   pre_tasks:
     - name: add python to patch #needed for almalinux
       shell: ln -s /usr/bin/python3 /usr/bin/python
@@ -19,3 +20,6 @@
   roles:
     - ansible-hardening
     - haxorof.docker_ce
+  tasks:
+    - name: Print out your new IP for your vagrant VM 
+      debug: var=ansible_all_ipv4_addresses
