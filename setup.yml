@@ -21,7 +21,7 @@
       ansible.builtin.user:
         name: '{{ _username }}'
         state: present
-        password: '{{ _password }}'
+        password: "{{ _password | string | password_hash('sha512') }}"
         shell: /bin/bash
       notify: restart_sshd
 
